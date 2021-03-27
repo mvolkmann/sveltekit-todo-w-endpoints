@@ -2,6 +2,9 @@
   import {autoFocusStore, darkModeStore} from '$lib/stores';
   import Toggle from '$lib/Toggle.svelte';
 
+  // We don't want auto-focus to be true by default
+  // because that is bad for users that use screen readers.
+  // But other users can choose to enable it.
   function setAutoFocus(event) {
     $autoFocusStore = event.target.checked;
     localStorage.setItem('auto-focus', $autoFocusStore.toString());

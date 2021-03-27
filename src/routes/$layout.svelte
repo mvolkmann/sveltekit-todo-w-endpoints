@@ -14,7 +14,7 @@
 
   const routes = [
     {name: 'About', url: '/about'},
-    {name: 'Todos', url: '/'}
+    {name: 'Todos', url: '/todos'}
   ];
 
   onMount(() => {
@@ -46,7 +46,10 @@
   <header>
     <nav>
       {#each routes as {name, url}}
-        <a class:current={url === path} href={url}>{name}</a>
+        <!-- Using prefetch causes the component code to be downloaded on hover
+             and its load function, if it exists, will be run. -->
+        <a sveltekit:prefetch class:selected={url === path} href={url}>{name}</a
+        >
       {/each}
     </nav>
     <button class="bare" on:click={() => dialog.showModal()}>
@@ -72,7 +75,7 @@
     text-decoration: none;
   }
 
-  a.current {
+  a.selected {
     font-weight: bold;
   }
 

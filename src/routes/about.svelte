@@ -1,4 +1,6 @@
 <script context="module">
+  import '../global.css';
+
   // Since this page is static, it can be pre-rendered on the server.
   export const prerender = true;
 </script>

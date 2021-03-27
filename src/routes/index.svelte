@@ -1,9 +1,11 @@
 <script context="module">
-  import {getJson} from '$lib/fetch-util';
+  import {getJson, setFetch} from '$lib/fetch-util';
 
   // Since the load function is async, it returns a promise.
   // This component won't be rendered until the promise resolves.
   export async function load({fetch}) {
+    setFetch(fetch);
+
     // Don't need try/catch when there is an error page.
     const todos = await getJson(fetch);
     // The props returned are passed to the component defined below.
@@ -34,7 +36,7 @@
   async function archiveTodos() {
     const todosDone = Object.values(todos).filter(t => t.done);
     try {
-      const promises = todosDone.map(t => deleteResource(t.id, fetch));
+      const promises = todosDone.map(t => deleteResource(t.id));
       // Wait for all the deletes to complete on the server.
       await Promise.all(promises);
       for (const todo of todosDone) {
@@ -48,7 +50,7 @@
 
   async function createTodo() {
     try {
-      const todo = await postJson(todoText, fetch);
+      const todo = await postJson(todoText);
       todos[todo.id] = todo;
       success();
       todoText = '';
@@ -59,7 +61,7 @@
 
   async function deleteTodo(id) {
     try {
-      await deleteResource(id, fetch);
+      await deleteResource(id);
       delete todos[id];
       success();
     } catch (e) {
@@ -75,7 +77,7 @@
   async function toggleDone(todo) {
     todo.done = !todo.done;
     try {
-      todos[todo.id] = await putJson(todo, fetch);
+      todos[todo.id] = await putJson(todo);
       success();
     } catch (e) {
       error = 'Error toggling todo: ' + e.message;
@@ -94,6 +96,7 @@
   </div>
   <div class="error">{error}</div>
   <form on:submit|preventDefault>
+    <!--TODO: Why is using autofocus considered so bad? -->
     <input
       type="text"
       size="30"

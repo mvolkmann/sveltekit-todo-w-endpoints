@@ -1,5 +1,5 @@
 <script context="module">
-  import {getTodos} from '$lib/todo';
+  import {getJson} from '$lib/fetch-util';
   const URL_PREFIX = 'http://localhost:3000/todo';
 
   import '../global.css';
@@ -8,14 +8,14 @@
   // This component won't be rendered until the promise resolves.
   export async function load({fetch}) {
     // Don't need try/catch when there is an error page.
-    const todos = await getTodos(fetch);
+    const todos = await getJson(fetch);
     // The props returned are passed to the component defined below.
     return {props: {todos}};
   }
 </script>
 
 <script>
-  import {archiveTodos, createTodo, deleteTodo, updateTodo} from '$lib/todo';
+  import {deleteResource, postJson, putJson} from '$lib/fetch-util';
   import Todo from '$lib/Todo.svelte';
 
   export let todos = {};
@@ -31,8 +31,13 @@
   $: status = `${uncompletedCount} of ${sortedTodos.length} remaining`;
 
   async function archive() {
+    const todosDone = Object.values(todos).filter(t => t.done);
     try {
-      await archiveTodos(todos, fetch);
+      const promises = todosDone.map(t => deleteResource(t.id, fetch));
+      await Promise.all(promises);
+      for (const todo of todosDone) {
+        delete todos[todo.id];
+      }
       todos = todos; // trigger reactivity
     } catch (e) {
       error = 'Error archiving todo: ' + e.message;
@@ -41,7 +46,8 @@
 
   async function create() {
     try {
-      await createTodo(todoText, todos, fetch);
+      const todo = await postJson(todoText, fetch);
+      todos[todo.id] = todo;
       todos = todos; // trigger reactivity
       todoText = '';
       error = '';
@@ -52,7 +58,8 @@
 
   async function del(id) {
     try {
-      await deleteTodo(id, todos, fetch);
+      await deleteResource(id, fetch);
+      delete todos[id];
       todos = todos; // trigger reactivity
       error = '';
     } catch (e) {
@@ -63,7 +70,8 @@
   async function toggle(todo) {
     todo.done = !todo.done;
     try {
-      await updateTodo(todo, todos, fetch);
+      const newTodo = await putJson(todo, fetch);
+      todos[todo.id] = newTodo;
       todos = todos; // trigger reactivity
       error = '';
     } catch (e) {

@@ -2,6 +2,8 @@
   import {getTodos} from '$lib/todo';
   const URL_PREFIX = 'http://localhost:3000/todo';
 
+  import '../global.css';
+
   export async function load({fetch}) {
     // Don't need try/catch when there is an error page.
     const todos = await getTodos(fetch);

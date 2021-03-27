@@ -2,15 +2,27 @@ body {
   --primary-color: cornflowerblue;
   --secondary-color: #f6d078;
   --tertiary-color: linen;
+  --bg-color: white;
+  --text-color: black;
 
   font-family: sans-serif;
   margin: 0;
 }
 
 body.dark-mode {
+  --bg-color: black;
   --primary-color: purple;
   --secondary-color: red;
   --tertiary-color: yellow;
+  --text-color: white;
+}
+
+button {
+  background-color: var(--text-color);
+  border: none;
+  border-radius: 0.5rem;
+  color: var(--bg-color);
+  padding: 0.5rem;
 }
 
 button.bare {

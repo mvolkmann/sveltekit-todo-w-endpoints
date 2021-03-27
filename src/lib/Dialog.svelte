@@ -31,6 +31,10 @@
   const classNames = 'dialog' + (className ? ' ' + className : '');
 
   onMount(async () => {
+    // Using a dynamic import inside onMount guarantees
+    // that it will only be imported on the client side.
+    // This is important for dialog-polyfill because it accesses
+    // the window object is not defined on the server side.
     const module = await import('dialog-polyfill');
     module.default.registerDialog(dialog);
   });

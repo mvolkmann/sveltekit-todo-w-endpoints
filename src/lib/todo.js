@@ -5,6 +5,12 @@
 const URL_PREFIX = 'http://localhost:3000/todo';
 const headers = {'Content-Type': 'application/json'};
 
+//TODO: Do you like they way this code ended up,
+//TODO: factoring these functions out of src/routes/index.svelte?
+//TODO: The old way is in src/routes/index-fetch.svelte.
+
+//TODO: Why does fetch need to be passed to these functions?
+//TODO: Is it because they may be run on the server where it isn't defined?
 export async function archiveTodos(todos, fetch) {
   const promises = Object.values(todos)
     .filter(t => t.done)

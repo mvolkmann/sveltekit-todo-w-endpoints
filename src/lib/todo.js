@@ -13,7 +13,7 @@ export async function archiveTodos(todos, fetch) {
 }
 
 export async function createTodo(text, todos, fetch) {
-  const res = await fetch(URL_PREFIX, {
+  const res = await fetch(URL_PREFIX + '.json', {
     method: 'POST',
     headers,
     body: JSON.stringify({text})
@@ -24,13 +24,13 @@ export async function createTodo(text, todos, fetch) {
 }
 
 export async function deleteTodo(id, todos, fetch) {
-  const res = await fetch(URL_PREFIX + '/' + id, {method: 'DELETE'});
+  const res = await fetch(`${URL_PREFIX}/${id}.json`, {method: 'DELETE'});
   if (!res.ok) throw new Error(await res.text());
   delete todos[id];
 }
 
 export async function getTodos(fetch) {
-  const res = await fetch(URL_PREFIX);
+  const res = await fetch(URL_PREFIX + '.json');
   if (!res.ok) {
     const text = await res.text();
     throw new Error('error getting todos: ' + text);
@@ -40,7 +40,7 @@ export async function getTodos(fetch) {
 
 export async function updateTodo(todo, todos, fetch) {
   const {id} = todo;
-  const res = await fetch(URL_PREFIX + '/' + id, {
+  const res = await fetch(`${URL_PREFIX}/${id}.json`, {
     method: 'PUT',
     headers,
     body: JSON.stringify(todo)

@@ -1,3 +1,5 @@
+// Adding ".json" in this file name is for consistency with "index.json.js".
+// See the comment at the top of that file.
 import {todos} from './_data.js';
 
 export function put({body, params}) {

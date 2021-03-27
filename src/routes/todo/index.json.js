@@ -1,3 +1,5 @@
+// Adding ".json" in this file name avoids
+// conflicting with a page route named "todo".
 import {todos} from './_data.js';
 
 let lastId = 0;

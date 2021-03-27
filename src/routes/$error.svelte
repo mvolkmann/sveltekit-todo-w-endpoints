@@ -1,3 +1,5 @@
+<!-- This is only rendered when a page fails to load,
+     not when there is an uncaught error in a function. -->
 <script>
   export let status;
   export let error;

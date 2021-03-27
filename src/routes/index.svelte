@@ -26,52 +26,57 @@
   );
 
   $: uncompletedCount = sortedTodos.filter(t => !t.done).length;
+
   $: status = `${uncompletedCount} of ${sortedTodos.length} remaining`;
 
-  async function archive() {
+  // In this simple version of the app,
+  // archiving todos just deletes them.
+  async function archiveTodos() {
     const todosDone = Object.values(todos).filter(t => t.done);
     try {
       const promises = todosDone.map(t => deleteResource(t.id, fetch));
+      // Wait for all the deletes to complete on the server.
       await Promise.all(promises);
       for (const todo of todosDone) {
         delete todos[todo.id];
       }
-      todos = todos; // trigger reactivity
+      success();
     } catch (e) {
-      error = 'Error archiving todo: ' + e.message;
+      error = 'Error archiving todos: ' + e.message;
     }
   }
 
-  async function create() {
+  async function createTodo() {
     try {
       const todo = await postJson(todoText, fetch);
       todos[todo.id] = todo;
-      todos = todos; // trigger reactivity
+      success();
       todoText = '';
-      error = '';
     } catch (e) {
       error = 'Error creating todo: ' + e.message;
     }
   }
 
-  async function del(id) {
+  async function deleteTodo(id) {
     try {
       await deleteResource(id, fetch);
       delete todos[id];
-      todos = todos; // trigger reactivity
-      error = '';
+      success();
     } catch (e) {
       error = 'Error deleting todo: ' + e.message;
     }
   }
 
-  async function toggle(todo) {
+  function success() {
+    todos = todos; // trigger reactivity
+    error = '';
+  }
+
+  async function toggleDone(todo) {
     todo.done = !todo.done;
     try {
-      const newTodo = await putJson(todo, fetch);
-      todos[todo.id] = newTodo;
-      todos = todos; // trigger reactivity
-      error = '';
+      todos[todo.id] = await putJson(todo, fetch);
+      success();
     } catch (e) {
       error = 'Error toggling todo: ' + e.message;
     }
@@ -82,7 +87,10 @@
   <h2>To Do List</h2>
   <div>
     {status}
-    <button on:click={archive}>Archive Completed</button>
+    <button
+      disabled={uncompletedCount === sortedTodos.length}
+      on:click={archiveTodos}>Archive Completed</button
+    >
   </div>
   <div class="error">{error}</div>
   <form on:submit|preventDefault>
@@ -93,14 +101,14 @@
       placeholder="enter new todo here"
       bind:value={todoText}
     />
-    <button disabled={!todoText} on:click={create}> Add </button>
+    <button disabled={!todoText} on:click={createTodo}> Add </button>
   </form>
   <ul class="unstyled">
     {#each sortedTodos as todo}
       <Todo
         {todo}
-        on:delete={() => del(todo.id)}
-        on:toggleDone={() => toggle(todo)}
+        on:delete={() => deleteTodo(todo.id)}
+        on:toggleDone={() => toggleDone(todo)}
       />
     {/each}
   </ul>

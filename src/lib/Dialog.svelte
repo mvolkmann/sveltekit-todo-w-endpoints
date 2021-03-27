@@ -46,7 +46,7 @@
     <header>
       <div class="title">{title}</div>
       {#if canClose}
-        <button class="bare" on:click={close}>&#x2716;</button>
+        <button class="bare" on:click={close}>✖</button>
       {/if}
     </header>
   {/if}

@@ -1,6 +1,5 @@
 <script context="module">
   import {getJson} from '$lib/fetch-util';
-  const URL_PREFIX = 'http://localhost:3000/todo';
 
   import '../global.css';
 

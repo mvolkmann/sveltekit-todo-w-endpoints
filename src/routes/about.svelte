@@ -15,7 +15,7 @@
   p {
     display: inline-block;
 
-    background-color: var(--secondary-color);
+    background-color: var(--tertiary-color);
     border: 5px solid var(--primary-color);
     border-radius: 1rem;
     color: var(--primary-color);

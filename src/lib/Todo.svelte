@@ -17,15 +17,10 @@
     on:change={() => dispatch('toggleDone')}
   />
   <span class={'done-' + todo.done}>{todo.text}</span>
-  <button on:click={() => dispatch('delete')}>🗑</button>
+  <button class="bare" on:click={() => dispatch('delete')}>🗑</button>
 </li>
 
 <style>
-  button {
-    background-color: transparent;
-    border: none;
-  }
-
   .done-true {
     color: gray;
     text-decoration: line-through;

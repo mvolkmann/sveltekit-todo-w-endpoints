@@ -14,7 +14,10 @@
 </script>
 
 <script>
+  import {onMount} from 'svelte';
+
   import {deleteResource, postJson, putJson} from '$lib/fetch-util';
+  import {darkModeStore} from '$lib/stores';
   import Todo from '$lib/Todo.svelte';
   import '../global.css';
 
@@ -22,6 +25,20 @@
 
   let error = '';
   let todoText = '';
+
+  onMount(() => {
+    let darkMode = localStorage.getItem('dark-mode');
+    if (darkMode) {
+      // Convert from string to boolean.
+      darkMode = darkMode === 'true';
+    } else {
+      // Get from system preferences.
+      darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    if (darkMode) document.body.classList.add('dark-mode');
+    $darkModeStore = darkMode;
+  });
 
   $: sortedTodos = Object.values(todos).sort((t1, t2) =>
     t1.text.localeCompare(t2.text)

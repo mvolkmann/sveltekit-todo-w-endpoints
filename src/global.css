@@ -1,9 +1,24 @@
 body {
   --primary-color: cornflowerblue;
-  --secondary-color: linen;
+  --secondary-color: #f6d078;
+  --tertiary-color: linen;
 
   font-family: sans-serif;
   margin: 0;
+}
+
+body.dark-mode {
+  --primary-color: purple;
+  --secondary-color: red;
+  --tertiary-color: yellow;
+}
+
+button.bare {
+  background-color: transparent;
+  border: none;
+  font-size: 1.2rem;
+  outline: none;
+  padding: 0;
 }
 
 input {

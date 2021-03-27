@@ -1,0 +1,12 @@
+body {
+  --primary-color: cornflowerblue;
+  --secondary-color: linen;
+
+  font-family: sans-serif;
+  margin: 0;
+}
+
+input {
+  border: 1px solid lightgray;
+  padding: 0.5rem;
+}

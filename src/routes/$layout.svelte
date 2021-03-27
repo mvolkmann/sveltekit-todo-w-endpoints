@@ -1,10 +1,12 @@
 <script>
   import Icon from 'fa-svelte';
+  import {onMount} from 'svelte';
   import {faCog} from '@fortawesome/free-solid-svg-icons';
 
   import {page} from '$app/stores';
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
+  import {autoFocusStore, darkModeStore} from '$lib/stores';
 
   let dialog;
 
@@ -14,6 +16,30 @@
     {name: 'About', url: '/about'},
     {name: 'Todos', url: '/'}
   ];
+
+  onMount(() => {
+    setupColorMode();
+    setupAutoFocus();
+  });
+
+  function setupAutoFocus() {
+    let autoFocus = localStorage.getItem('auto-focus');
+    $autoFocusStore = autoFocus === 'true';
+  }
+
+  function setupColorMode() {
+    let darkMode = localStorage.getItem('dark-mode');
+    if (darkMode) {
+      // Convert from string to boolean.
+      darkMode = darkMode === 'true';
+    } else {
+      // Get from system preferences.
+      darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    if (darkMode) document.body.classList.add('dark-mode');
+    $darkModeStore = darkMode;
+  }
 </script>
 
 <main>

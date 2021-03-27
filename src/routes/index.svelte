@@ -15,9 +15,8 @@
 
 <script>
   import {onMount} from 'svelte';
-
   import {deleteResource, postJson, putJson} from '$lib/fetch-util';
-  import {darkModeStore} from '$lib/stores';
+  import {autoFocusStore} from '$lib/stores';
   import Todo from '$lib/Todo.svelte';
   import '../global.css';
 
@@ -25,20 +24,7 @@
 
   let error = '';
   let todoText = '';
-
-  onMount(() => {
-    let darkMode = localStorage.getItem('dark-mode');
-    if (darkMode) {
-      // Convert from string to boolean.
-      darkMode = darkMode === 'true';
-    } else {
-      // Get from system preferences.
-      darkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    }
-
-    if (darkMode) document.body.classList.add('dark-mode');
-    $darkModeStore = darkMode;
-  });
+  let todoTextInput;
 
   $: sortedTodos = Object.values(todos).sort((t1, t2) =>
     t1.text.localeCompare(t2.text)
@@ -47,6 +33,13 @@
   $: uncompletedCount = sortedTodos.filter(t => !t.done).length;
 
   $: status = `${uncompletedCount} of ${sortedTodos.length} remaining`;
+
+  onMount(() => {
+    setTimeout(() => {
+      // doesn't work without this
+      if ($autoFocusStore) todoTextInput.focus();
+    });
+  });
 
   // In this simple version of the app,
   // archiving todos just deletes them.
@@ -113,12 +106,11 @@
   </div>
   <div class="error">{error}</div>
   <form on:submit|preventDefault>
-    <!--TODO: Why is using autofocus considered so bad? -->
     <input
       type="text"
       size="30"
-      autofocus
       placeholder="enter new todo here"
+      bind:this={todoTextInput}
       bind:value={todoText}
     />
     <button disabled={!todoText} on:click={createTodo}> Add </button>

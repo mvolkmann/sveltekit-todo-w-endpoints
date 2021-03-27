@@ -1,11 +1,16 @@
 <script>
   import {createEventDispatcher} from 'svelte';
-  import {fade} from 'svelte/transition';
+  //import {fade} from 'svelte/transition';
+
   const dispatch = createEventDispatcher();
+
   export let todo; // the only prop
 </script>
 
-<li transition:fade>
+<!-- Having a transition here delays the
+     rendering of other routes like "About". -->
+<!-- <li transition:fade> -->
+<li>
   <input
     type="checkbox"
     checked={todo.done}

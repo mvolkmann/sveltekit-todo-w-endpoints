@@ -4,9 +4,12 @@
 
   import '../global.css';
 
+  // Since the load function is async, it returns a promise.
+  // This component won't be rendered until the promise resolves.
   export async function load({fetch}) {
     // Don't need try/catch when there is an error page.
     const todos = await getTodos(fetch);
+    // The props returned are passed to the component defined below.
     return {props: {todos}};
   }
 </script>

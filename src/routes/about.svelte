@@ -1,3 +1,8 @@
+<script context="module">
+  // Since this page is static, it can be pre-rendered on the server.
+  export const prerender = true;
+</script>
+
 <section>
   <p>
     This is a simple todo app developed to demonstrate using Svelte.<br />

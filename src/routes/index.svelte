@@ -1,8 +1,6 @@
 <script context="module">
   import {getJson} from '$lib/fetch-util';
 
-  import '../global.css';
-
   // Since the load function is async, it returns a promise.
   // This component won't be rendered until the promise resolves.
   export async function load({fetch}) {
@@ -16,6 +14,7 @@
 <script>
   import {deleteResource, postJson, putJson} from '$lib/fetch-util';
   import Todo from '$lib/Todo.svelte';
+  import '../global.css';
 
   export let todos = {};
 

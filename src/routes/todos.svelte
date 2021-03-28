@@ -1,6 +1,5 @@
 <script context="module">
   import {getJson, setFetch} from '$lib/fetch-util';
-  import '../global.css';
 
   // Since the load function is async, it returns a promise.
   // This component won't be rendered until the promise resolves.

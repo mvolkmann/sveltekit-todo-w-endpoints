@@ -7,6 +7,7 @@
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
   import {autoFocusStore, darkModeStore} from '$lib/stores';
+  import '../global.css';
 
   let dialog;
 

@@ -1,6 +1,7 @@
 module.exports = {
   // See https://github.com/sveltejs/language-tools/issues/918.
   env: {
+    browser: true, // for document, localStorage, and window
     es6: true, // for Promise
     node: true // for console
   },

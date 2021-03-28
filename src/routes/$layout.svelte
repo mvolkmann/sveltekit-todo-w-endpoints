@@ -24,7 +24,7 @@
 
   function setupAutoFocus() {
     let autoFocus = localStorage.getItem('auto-focus');
-    $autoFocusStore = autoFocus === 'true';
+    autoFocusStore.set(autoFocus === 'true');
   }
 
   function setupColorMode() {
@@ -38,7 +38,7 @@
     }
 
     if (darkMode) document.body.classList.add('dark-mode');
-    $darkModeStore = darkMode;
+    darkModeStore.set(darkMode);
   }
 </script>
 

@@ -27,8 +27,8 @@
     border-radius: calc(var(--thumb-size) / 2);
     outline: none;
 
-    transition-duration: 0.3s;
-    transition-property: left;
+    transition: background-color var(--transition-duration);
+    transition: left 0.3s;
   }
 
   .toggle {
@@ -47,6 +47,7 @@
     margin-bottom: 0;
     padding: var(--padding);
     position: relative;
+    transition: background-color var(--transition-duration);
   }
 
   .toggle:focus {

@@ -3,7 +3,10 @@ body {
   --secondary-color: #f6d078;
   --tertiary-color: linen;
   --bg-color: white;
-  --text-color: black;
+  --border-color: lightgray;
+  --input-bg-color: white;
+  --text-color: darkblue;
+  --transition-duration: 1s;
 
   font-family: sans-serif;
   margin: 0;
@@ -11,6 +14,7 @@ body {
 
 body.dark-mode {
   --bg-color: black;
+  --input-bg-color: gray;
   --primary-color: purple;
   --secondary-color: red;
   --tertiary-color: yellow;
@@ -23,6 +27,8 @@ button {
   border-radius: 0.5rem;
   color: var(--bg-color);
   padding: 0.5rem;
+  transition: background-color var(--transition-duration);
+  transition: color var(--transition-duration);
 }
 
 button.bare {
@@ -34,15 +40,26 @@ button.bare {
 }
 
 input {
-  border: 1px solid lightgray;
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--text-color);
   padding: 0.5rem;
 }
 
 input[type='checkbox'] {
   --size: 1rem;
 
+  appearance: none;
   height: var(--size);
-  margin-left: 0;
-  margin-right: 0.5rem;
+  margin: 0 0.5rem 0 0;
+  position: relative;
   width: var(--size);
+}
+
+input[type='checkbox']:checked::after {
+  content: '\2713';
+  position: absolute;
+  top: 0;
+  left: 3px;
 }

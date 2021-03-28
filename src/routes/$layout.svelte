@@ -73,6 +73,7 @@
     color: var(--primary-color);
     margin-right: 1rem;
     text-decoration: none;
+    transition: color var(--transition-duration);
   }
 
   a.selected {
@@ -83,6 +84,8 @@
     background-color: var(--secondary-color);
     color: var(--primary-color);
     padding: 1rem;
+    transition: background-color var(--transition-duration);
+    transition: color var(--transition-duration);
   }
 
   header {
@@ -92,6 +95,7 @@
     background-color: var(--secondary-color);
     font-size: 1.5rem;
     padding: 1rem;
+    transition: background-color var(--transition-duration);
   }
 
   header :global(.fa-svelte) {
@@ -110,6 +114,8 @@
     color: var(--text-color);
     height: 100vh;
     padding: 0;
+    transition: background-color var(--transition-duration);
+    transition: color var(--transition-duration);
   }
 
   section {

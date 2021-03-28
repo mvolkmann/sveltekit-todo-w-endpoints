@@ -22,6 +22,8 @@
     border-radius: 1rem;
     color: var(--primary-color);
     padding: 1rem;
+    transition: background-color var(--transition-duration);
+    transition: color var(--transition-duration);
     width: auto;
   }
 

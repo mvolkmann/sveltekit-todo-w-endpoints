@@ -93,6 +93,8 @@
     color: var(--bg-color);
     font-weight: bold;
     padding: 1rem;
+    transition: background-color var(--transition-duration);
+    transition: color var(--transition-duration);
     width: 100%;
   }
 

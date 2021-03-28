@@ -21,12 +21,19 @@
 </li>
 
 <style>
+  button {
+    margin-left: 1rem;
+  }
+
   .done-true {
     color: gray;
     text-decoration: line-through;
   }
 
   li {
+    display: flex;
+    align-items: center;
+
     margin-top: 5px;
   }
 </style>

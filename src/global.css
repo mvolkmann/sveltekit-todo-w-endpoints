@@ -4,6 +4,7 @@ body {
   --tertiary-color: linen;
   --bg-color: white;
   --border-color: lightgray;
+  --hover-color: blue;
   --input-bg-color: white;
   --text-color: darkblue;
   --transition-duration: 1s;
@@ -37,6 +38,15 @@ button.bare {
   font-size: 1.2rem;
   outline: none;
   padding: 0;
+}
+
+button.bare:hover {
+  background-color: transparent;
+  outline: 1px solid var(--border-color);
+}
+
+button:hover {
+  background-color: var(--hover-color);
 }
 
 input {

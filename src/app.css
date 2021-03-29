@@ -6,6 +6,7 @@ body {
   --bg-color: white;
   --border-color: lightgray;
   --disabled-color: gray;
+  --error-color: red;
   --hover-color: var(--primary-color);
   --input-bg-color: white;
   --text-color: darkblue;
@@ -27,15 +28,6 @@ body.dark-mode {
   --input-bg-color: #444;
   --input-border-width: 2px;
   --text-color: white;
-
-  /*
-  --bg-color: black;
-  --input-bg-color: gray;
-  --primary-color: purple;
-  --secondary-color: red;
-  --tertiary-color: yellow;
-  --text-color: white;
-  */
 }
 
 button {
@@ -62,8 +54,16 @@ button.bare:hover {
   outline: 1px solid var(--border-color);
 }
 
+button:disabled {
+  opacity: 40%;
+}
+
 button:hover {
   background-color: var(--hover-color);
+}
+
+.error {
+  color: var(--error-color);
 }
 
 input {

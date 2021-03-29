@@ -6,7 +6,7 @@
   import {page} from '$app/stores';
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
-  import {autoFocusStore, darkModeStore} from '$lib/stores';
+  import {authenticatedStore, autoFocusStore, darkModeStore} from '$lib/stores';
   import '../app.css';
 
   let dialog;
@@ -22,6 +22,13 @@
     setupColorMode();
     setupAutoFocus();
   });
+
+  //TODO: Prevent navigation to protected routes when not authenticated.
+
+  function logout() {
+    authenticatedStore.set(false);
+    location.href = '/login';
+  }
 
   function setupAutoFocus() {
     let autoFocus = localStorage.getItem('auto-focus');
@@ -53,9 +60,12 @@
         >
       {/each}
     </nav>
-    <button class="bare" on:click={() => dialog.showModal()}>
-      <Icon icon={faCog} />
-    </button>
+    <div class="right">
+      <button on:click={logout}>Logout</button>
+      <button class="bare" on:click={() => dialog.showModal()}>
+        <Icon icon={faCog} />
+      </button>
+    </div>
   </header>
 
   <section>
@@ -92,6 +102,7 @@
   header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     background-color: var(--primary-color);
     font-size: 1.5rem;
@@ -117,6 +128,12 @@
     padding: 0;
     transition: background-color var(--transition-duration);
     transition: color var(--transition-duration);
+  }
+
+  .right {
+    display: flex;
+    align-items: center;
+    grid-gap: 1rem;
   }
 
   section {

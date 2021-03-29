@@ -130,10 +130,6 @@
     margin-left: 10px;
   }
 
-  .error {
-    color: red;
-  }
-
   form {
     margin-top: 1rem;
   }

@@ -12,6 +12,10 @@
 
   $: canLogin = email && password;
 
+  function forgotPassword() {
+    alert('Forgot password is not implemented yet.');
+  }
+
   function login() {
     if (password === 'secret') {
       error = '';
@@ -39,6 +43,7 @@
   </div>
   <div class="row">
     <button disabled={!canLogin}>Login</button>
+    <button type="button" on:click={forgotPassword}>Forgot Password</button>
   </div>
   <div class="error row">{error}</div>
 </form>

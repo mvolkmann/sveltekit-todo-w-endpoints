@@ -15,10 +15,10 @@
   p {
     display: inline-block;
 
-    background-color: var(--tertiary-color);
-    border: 5px solid var(--primary-color);
+    background-color: var(--primary-color);
+    border: 5px solid var(--secondary-color);
     border-radius: 1rem;
-    color: var(--primary-color);
+    color: var(--text-color);
     padding: 1rem;
     transition: background-color var(--transition-duration);
     transition: color var(--transition-duration);

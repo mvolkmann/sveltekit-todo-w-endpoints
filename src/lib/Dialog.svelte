@@ -88,9 +88,9 @@
     justify-content: space-between;
     align-items: center;
 
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     box-sizing: border-box;
-    color: var(--bg-color);
+    color: var(--text-color);
     font-weight: bold;
     padding: 1rem;
     transition: background-color var(--transition-duration);
@@ -99,7 +99,7 @@
   }
 
   .title {
-    color: var(--input-bg-color);
+    color: var(--text-color);
     flex-grow: 1;
     font-size: 1.2rem;
     font-weight: bold;

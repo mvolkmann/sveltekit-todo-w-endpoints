@@ -1,12 +1,16 @@
 body {
-  --primary-color: cornflowerblue;
-  --secondary-color: #f6d078;
-  --tertiary-color: linen;
+  --primary-color: #8ea4ed;
+  --secondary-color: #e092d2;
+  --tertiary-color: #f0ceaf;
+
   --bg-color: white;
   --border-color: lightgray;
-  --hover-color: blue;
+  --disabled-color: gray;
+  --hover-color: var(--primary-color);
   --input-bg-color: white;
   --text-color: darkblue;
+
+  --input-border-width: 0;
   --transition-duration: 1s;
 
   font-family: sans-serif;
@@ -14,19 +18,31 @@ body {
 }
 
 body.dark-mode {
+  --primary-color: #363e59;
+  --secondary-color: #593a54;
+  --tertiary-color: #594d41;
+
+  --bg-color: white;
+  --disabled-color: lightgray;
+  --input-bg-color: #444;
+  --input-border-width: 2px;
+  --text-color: white;
+
+  /*
   --bg-color: black;
   --input-bg-color: gray;
   --primary-color: purple;
   --secondary-color: red;
   --tertiary-color: yellow;
   --text-color: white;
+  */
 }
 
 button {
-  background-color: var(--text-color);
+  background-color: var(--secondary-color);
   border: none;
   border-radius: 0.5rem;
-  color: var(--bg-color);
+  color: var(--text-color);
   padding: 0.5rem;
   transition: background-color var(--transition-duration);
   transition: color var(--transition-duration);
@@ -35,6 +51,7 @@ button {
 button.bare {
   background-color: transparent;
   border: none;
+  color: var(--text-color);
   font-size: 1.2rem;
   outline: none;
   padding: 0;
@@ -51,7 +68,7 @@ button:hover {
 
 input {
   background-color: var(--input-bg-color);
-  border: 1px solid var(--border-color);
+  border: var(--input-border-width) solid var(--border-color);
   border-radius: 4px;
   color: var(--text-color);
   padding: 0.5rem;

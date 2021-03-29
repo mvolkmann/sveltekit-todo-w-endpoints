@@ -1,6 +1,8 @@
 <script>
+  import Icon from 'fa-svelte';
   import {createEventDispatcher} from 'svelte';
   import {fade} from 'svelte/transition';
+  import {faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
   const dispatch = createEventDispatcher();
 
@@ -16,16 +18,20 @@
     on:change={() => dispatch('toggleDone')}
   />
   <span class={'done-' + todo.done}>{todo.text}</span>
-  <button class="bare" on:click={() => dispatch('delete')}>🗑</button>
+  <button class="bare" on:click={() => dispatch('delete')}>
+    <Icon icon={faTrashAlt} />
+  </button>
 </li>
 
 <style>
   button {
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    position: relative;
+    top: 2px;
   }
 
   .done-true {
-    color: gray;
+    color: var(--disabled-color);
     text-decoration: line-through;
   }
 

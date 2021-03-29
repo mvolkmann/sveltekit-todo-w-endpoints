@@ -38,7 +38,7 @@
     display: flex;
     align-items: center;
 
-    background-color: var(--secondary-color);
+    background-color: var(--tertiary-color);
     box-sizing: border-box;
     height: var(--size);
     width: calc(var(--size) * 1.8);

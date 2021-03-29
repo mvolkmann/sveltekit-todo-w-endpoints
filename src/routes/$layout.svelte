@@ -71,7 +71,7 @@
 
 <style>
   a {
-    color: var(--primary-color);
+    color: var(--text-color);
     margin-right: 1rem;
     text-decoration: none;
     transition: color var(--transition-duration);
@@ -82,8 +82,8 @@
   }
 
   footer {
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
+    background-color: var(--primary-color);
+    color: var(--text-color);
     padding: 1rem;
     transition: background-color var(--transition-duration);
     transition: color var(--transition-duration);
@@ -93,7 +93,7 @@
     display: flex;
     justify-content: space-between;
 
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     font-size: 1.5rem;
     padding: 1rem;
     transition: background-color var(--transition-duration);
@@ -102,7 +102,7 @@
   header :global(.fa-svelte) {
     --size: 1.5rem;
 
-    color: var(--primary-color);
+    color: var(--text-color);
     height: var(--size);
     width: var(--size);
   }
@@ -111,7 +111,7 @@
     display: flex;
     flex-direction: column;
 
-    background-color: var(--bg-color);
+    background-color: var(--tertiary-color);
     color: var(--text-color);
     height: 100vh;
     padding: 0;

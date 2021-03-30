@@ -1,9 +1,11 @@
 <script>
+  import {browser} from '$app/env';
+  import {goto} from '$app/navigation';
+  import {page} from '$app/stores';
+  import {faCog} from '@fortawesome/free-solid-svg-icons';
   import Icon from 'fa-svelte';
   import {onMount} from 'svelte';
-  import {faCog} from '@fortawesome/free-solid-svg-icons';
 
-  import {page} from '$app/stores';
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
   import {authenticatedStore, autoFocusStore, darkModeStore} from '$lib/stores';
@@ -12,6 +14,8 @@
   let dialog;
 
   $: path = $page.path;
+
+  //$: if (browser && !$authenticatedStore) goto('/login');
 
   const routes = [
     {name: 'About', url: '/about'},
@@ -27,7 +31,7 @@
 
   function logout() {
     authenticatedStore.set(false);
-    location.href = '/login';
+    goto('/login');
   }
 
   function setupAutoFocus() {
@@ -59,9 +63,14 @@
         <a sveltekit:prefetch class:selected={url === path} href={url}>{name}</a
         >
       {/each}
+      {#if path !== '/login' && !$authenticatedStore}
+        <a sveltekit:prefetch href="/login">Login</a>
+      {/if}
     </nav>
     <div class="right">
-      <button on:click={logout}>Logout</button>
+      {#if $authenticatedStore}
+        <button on:click={logout}>Logout</button>
+      {/if}
       <button class="bare" on:click={() => dialog.showModal()}>
         <Icon icon={faCog} />
       </button>

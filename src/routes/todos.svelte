@@ -1,9 +1,11 @@
 <script context="module">
+  import {get} from 'svelte/store';
   import {getJson, setFetch} from '$lib/fetch-util';
 
   // Since the load function is async, it returns a promise.
   // This component won't be rendered until the promise resolves.
   export async function load({fetch}) {
+    //TODO: Why is this needed?
     setFetch(fetch);
 
     // Don't need try/catch when there is an error page.
@@ -14,12 +16,16 @@
 </script>
 
 <script>
+  import {goto} from '$app/navigation';
   import {onMount} from 'svelte';
+
   import {deleteResource, postJson, putJson} from '$lib/fetch-util';
-  import {autoFocusStore} from '$lib/stores';
+  import {authenticatedStore, autoFocusStore} from '$lib/stores';
   import Todo from '$lib/Todo.svelte';
 
   export let todos = {};
+
+  if (!$authenticatedStore) goto('/login');
 
   let error = '';
   let todoText = '';

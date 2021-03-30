@@ -4,6 +4,8 @@
   export let status;
   export let error;
 
+  console.error('$error.svelte: error =', error);
+
   let message = '';
   $: if (error) {
     // Get first line of error message to omit stack trace.

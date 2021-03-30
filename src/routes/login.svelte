@@ -4,6 +4,8 @@
 </script>
 
 <script>
+  import {browser} from '$app/env';
+  import {goto} from '$app/navigation';
   import {authenticatedStore} from '$lib/stores';
 
   let email = 'r.mark.volkmann@gmail.com';
@@ -20,7 +22,7 @@
     if (password === 'secret') {
       error = '';
       authenticatedStore.set(true);
-      location.href = '/about';
+      if (browser) goto('/about');
     } else {
       error = 'invalid email or password';
     }
@@ -30,7 +32,7 @@
 <form on:submit|preventDefault={login}>
   <div class="row">
     <label for="email">Email</label>
-    <input id="email" type="email" bind:value={email} />
+    <input id="email" type="email" autocomplete="email" bind:value={email} />
   </div>
   <div class="row">
     <label for="password">Password</label>

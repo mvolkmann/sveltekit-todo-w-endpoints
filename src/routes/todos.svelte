@@ -1,5 +1,4 @@
 <script context="module">
-  import {get} from 'svelte/store';
   import {getJson, setFetch} from '$lib/fetch-util';
 
   // Since the load function is async, it returns a promise.
@@ -16,16 +15,13 @@
 </script>
 
 <script>
-  import {goto} from '$app/navigation';
   import {onMount} from 'svelte';
 
   import {deleteResource, postJson, putJson} from '$lib/fetch-util';
-  import {authenticatedStore, autoFocusStore} from '$lib/stores';
+  import {autoFocusStore} from '$lib/stores';
   import Todo from '$lib/Todo.svelte';
 
   export let todos = {};
-
-  if (!$authenticatedStore) goto('/login');
 
   let error = '';
   let todoText = '';

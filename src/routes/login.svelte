@@ -22,7 +22,7 @@
     if (password === 'secret') {
       error = '';
       authenticatedStore.set(true);
-      if (browser) goto('/about');
+      if (browser) goto('/about'); // cannot call on server
     } else {
       error = 'invalid email or password';
     }

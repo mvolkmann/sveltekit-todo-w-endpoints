@@ -11,11 +11,20 @@
   import {authenticatedStore, autoFocusStore, darkModeStore} from '$lib/stores';
   import '../app.css';
 
+  const PROTECTED_ROUTES = ['/todos'];
+
   let dialog;
 
   $: path = $page.path;
 
-  //$: if (browser && !$authenticatedStore) goto('/login');
+  $: if (
+    browser &&
+    $page.path !== '/login' &&
+    PROTECTED_ROUTES.includes($page.path) &&
+    !$authenticatedStore
+  ) {
+    goto('/login');
+  }
 
   const routes = [
     {name: 'About', url: '/about'},
@@ -23,11 +32,9 @@
   ];
 
   onMount(() => {
-    setupColorMode();
     setupAutoFocus();
+    setupColorMode();
   });
-
-  //TODO: Prevent navigation to protected routes when not authenticated.
 
   function logout() {
     authenticatedStore.set(false);
@@ -63,11 +70,13 @@
         <a sveltekit:prefetch class:selected={url === path} href={url}>{name}</a
         >
       {/each}
+      <!-- If not on login page and not authenticated, add Login link. -->
       {#if path !== '/login' && !$authenticatedStore}
         <a sveltekit:prefetch href="/login">Login</a>
       {/if}
     </nav>
     <div class="right">
+      <!-- If authenticated, add a Logout button. -->
       {#if $authenticatedStore}
         <button on:click={logout}>Logout</button>
       {/if}

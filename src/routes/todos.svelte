@@ -8,7 +8,7 @@
     setFetch(fetch);
 
     // Don't need try/catch when there is an error page.
-    const todos = await getJson(fetch);
+    const todos = await getJson('todo');
     // The props returned are passed to the component defined below.
     return {props: {todos}};
   }
@@ -17,7 +17,7 @@
 <script>
   import {onMount} from 'svelte';
 
-  import {deleteResource, postJson, putJson} from '$lib/fetch-util';
+  import {deleteResource, postText, putJson} from '$lib/fetch-util';
   import {autoFocusStore} from '$lib/stores';
   import Todo from '$lib/Todo.svelte';
 
@@ -61,7 +61,7 @@
 
   async function createTodo() {
     try {
-      const todo = await postJson(todoText);
+      const todo = await postText('todo', todoText);
       todos[todo.id] = todo;
       success();
       todoText = '';
@@ -88,7 +88,7 @@
   async function toggleDone(todo) {
     todo.done = !todo.done;
     try {
-      todos[todo.id] = await putJson(todo);
+      todos[todo.id] = await putJson('todo', todo);
       success();
     } catch (e) {
       error = 'Error toggling todo: ' + e.message;

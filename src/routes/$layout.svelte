@@ -8,7 +8,7 @@
 
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
-  import {authenticatedStore, autoFocusStore, darkModeStore} from '$lib/stores';
+  import {autoFocusStore, darkModeStore, tokenStore} from '$lib/stores';
   import '../app.css';
 
   const PROTECTED_ROUTES = ['/todos'];
@@ -21,7 +21,7 @@
     browser &&
     $page.path !== '/login' &&
     PROTECTED_ROUTES.includes($page.path) &&
-    !$authenticatedStore
+    !$tokenStore
   ) {
     goto('/login');
   }
@@ -37,7 +37,7 @@
   });
 
   function logout() {
-    authenticatedStore.set(false);
+    tokenStore.set('');
     goto('/login');
   }
 
@@ -71,13 +71,13 @@
         >
       {/each}
       <!-- If not on login page and not authenticated, add Login link. -->
-      {#if path !== '/login' && !$authenticatedStore}
+      {#if path !== '/login' && !$tokenStore}
         <a sveltekit:prefetch href="/login">Login</a>
       {/if}
     </nav>
     <div class="right">
-      <!-- If authenticated, add a Logout button. -->
-      {#if $authenticatedStore}
+      <!-- If not on login page and authenticated, add a Logout button. -->
+      {#if path !== '/login' && $tokenStore}
         <button on:click={logout}>Logout</button>
       {/if}
       <button class="bare" on:click={() => dialog.showModal()}>

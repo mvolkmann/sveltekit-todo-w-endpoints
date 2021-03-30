@@ -6,7 +6,8 @@
 <script>
   import {browser} from '$app/env';
   import {goto} from '$app/navigation';
-  import {authenticatedStore} from '$lib/stores';
+  import {tokenStore} from '$lib/stores';
+  import {postJson, setFetch} from '$lib/fetch-util';
 
   let email = 'r.mark.volkmann@gmail.com';
   let error = '';
@@ -18,12 +19,15 @@
     alert('Forgot password is not implemented yet.');
   }
 
-  function login() {
-    if (password === 'secret') {
+  async function login() {
+    try {
+      setFetch(fetch);
+      const token = await postJson('auth', {email, password});
+      tokenStore.set(token);
       error = '';
-      authenticatedStore.set(true);
       if (browser) goto('/about'); // cannot call on server
-    } else {
+    } catch (e) {
+      console.error('login.svelte login: e =', e);
       error = 'invalid email or password';
     }
   }

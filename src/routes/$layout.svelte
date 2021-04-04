@@ -9,6 +9,7 @@
   import Dialog from '$lib/Dialog.svelte';
   import Settings from '$lib/Settings.svelte';
   import {autoFocusStore, darkModeStore, tokenStore} from '$lib/stores';
+  import {getBrowser} from '$lib/util';
   import '../app.css';
 
   const PROTECTED_ROUTES = ['/todos'];
@@ -32,6 +33,7 @@
   ];
 
   onMount(() => {
+    document.body.classList.add(getBrowser());
     setupAutoFocus();
     setupColorMode();
   });

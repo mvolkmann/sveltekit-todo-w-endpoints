@@ -6,6 +6,7 @@
 <script>
   import {browser} from '$app/env';
   import {goto} from '$app/navigation';
+  import DatePicker from '$lib/DatePicker.svelte';
   import {tokenStore} from '$lib/stores';
   import {postJson, setFetch} from '$lib/fetch-util';
 
@@ -54,6 +55,8 @@
   <div class="error row">{error}</div>
 </form>
 
+<DatePicker />
+
 <style>
   input {
     width: 250px;
@@ -62,7 +65,7 @@
   label {
     display: inline-block;
     text-align: right;
-    width: 72px;
+    width: 5rem;
   }
 
   .row {

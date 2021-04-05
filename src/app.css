@@ -5,6 +5,7 @@ body {
 
   --bg-color: white;
   --border-color: lightgray;
+  --border-radius: 0.25rem;
   --disabled-color: gray;
   --error-color: red;
   --hover-color: var(--primary-color);
@@ -70,7 +71,7 @@ button:hover {
 input {
   background-color: var(--input-bg-color);
   border: var(--input-border-width) solid var(--border-color);
-  border-radius: 4px;
+  border-radius: var(--border-radius);
   color: var(--text-color);
   padding: 0.5rem;
 }
@@ -96,4 +97,28 @@ input[type='checkbox']:checked::after {
 .Safari input[type='checkbox']:checked::after {
   top: 3px;
   left: 4px;
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--input-bg-color);
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  padding: 0.5rem;
+}
+
+.select-wrapper {
+  display: inline-block;
+  position: relative;
+}
+
+.select-wrapper::after {
+  color: var(--primary-color);
+  content: '▼';
+  position: absolute;
+  top: 9px;
+  right: 6px;
+  z-index: 100;
 }

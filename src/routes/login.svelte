@@ -32,6 +32,10 @@
       error = 'invalid email or password';
     }
   }
+
+  function newAccount() {
+    alert('New Account is not implemented yet.');
+  }
 </script>
 
 <form on:submit|preventDefault={login}>
@@ -51,6 +55,7 @@
   <div class="row">
     <button disabled={!canLogin}>Login</button>
     <button type="button" on:click={forgotPassword}>Forgot Password</button>
+    <button type="button" on:click={newAccount}>New Account</button>
   </div>
   <div class="error row">{error}</div>
 </form>

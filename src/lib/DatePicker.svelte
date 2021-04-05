@@ -139,16 +139,30 @@
     <div>
       <button class="bare" on:click={previousMonth} type="button">&lt;</button>
       <div>
-        <select on:change={changeMonth} value={month}>
-          {#each MONTHS as month, index}
-            <option value={index}>{month}</option>
-          {/each}
-        </select>
-        <select on:change={changeYear} value={year}>
-          {#each Array(maxYear - minYear + 1) as _, index}
-            <option>{minYear + index}</option>
-          {/each}
-        </select>
+        <div class="select-wrapper">
+          <select
+            class="month-select"
+            on:blur={changeMonth}
+            on:change={changeMonth}
+            value={month}
+          >
+            {#each MONTHS as month, index}
+              <option value={index}>{month}</option>
+            {/each}
+          </select>
+        </div>
+        <div class="select-wrapper">
+          <select
+            class="year-select"
+            on:blur={changeYear}
+            on:change={changeYear}
+            value={year}
+          >
+            {#each Array(maxYear - minYear + 1) as _, index}
+              <option>{minYear + index}</option>
+            {/each}
+          </select>
+        </div>
       </div>
       <button class="bare" on:click={nextMonth} type="button">&gt;</button>
     </div>
@@ -194,9 +208,17 @@
     padding: 1rem;
   }
 
+  .date-picker :global(select) {
+    border-color: transparent;
+  }
+
   header > div {
     display: flex;
     justify-content: space-between;
+  }
+
+  .month-select {
+    width: 7rem;
   }
 
   .next,
@@ -227,5 +249,9 @@
     padding-top: 3px;
     text-align: center;
     width: var(--size);
+  }
+
+  .year-select {
+    width: 4.5rem;
   }
 </style>

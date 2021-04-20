@@ -33,48 +33,73 @@
     }
   }
 
-  function newAccount() {
-    alert('New Account is not implemented yet.');
+  async function newAccount() {
+    const body = {email, password};
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log('login.svelte newAccount: res =', res);
+    } catch (e) {
+      console.error('login.svelte newAccount: e =', e);
+    }
   }
 </script>
 
 <form on:submit|preventDefault={login}>
-  <div class="row">
-    <label for="email">Email</label>
-    <input id="email" type="email" autocomplete="email" bind:value={email} />
-  </div>
-  <div class="row">
-    <label for="password">Password</label>
-    <input
-      id="password"
-      type="password"
-      autocomplete="current-password"
-      bind:value={password}
-    />
-  </div>
-  <div class="row">
-    <button disabled={!canLogin}>Login</button>
+  <div class="error row">{error}</div>
+
+  <h1>Login to your account</h1>
+
+  <label for="email">Email</label>
+  <input id="email" type="email" autocomplete="email" bind:value={email} />
+
+  <label for="password">Password</label>
+  <input
+    id="password"
+    type="password"
+    autocomplete="current-password"
+    bind:value={password}
+  />
+
+  <!-- TODO: Consider requiring password to be entered again
+         to create a new account. -->
+
+  <div class="buttons">
+    <button class="primary" disabled={!canLogin}>Login</button>
     <button type="button" on:click={forgotPassword}>Forgot Password</button>
     <button type="button" on:click={newAccount}>New Account</button>
   </div>
-  <div class="error row">{error}</div>
 </form>
 
-<DatePicker />
-
+<!-- <DatePicker /> -->
 <style>
+  .buttons {
+    display: flex;
+    grid-gap: 1rem;
+
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+
+  h1 {
+    color: var(--secondary-color);
+    font-weight: 100;
+    margin-top: 0;
+  }
+
   input {
-    width: 250px;
+    box-sizing: border-box;
+    margin-bottom: 1rem;
+    width: 100%;
   }
 
   label {
-    display: inline-block;
-    text-align: right;
-    width: 5rem;
-  }
-
-  .row {
-    margin-top: 0.5rem;
-    text-align: center;
+    display: block;
+    margin-bottom: 0.5rem;
   }
 </style>

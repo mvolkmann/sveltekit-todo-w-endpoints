@@ -20,23 +20,13 @@
     'December'
   ];
 
-  $: initialDate = new Date(date);
-  $: initialMonth = initialDate.getMonth();
-  $: initialDay = initialDate.getDate();
-  $: initialYear = initialDate.getFullYear();
+  $: console.log('DatePicker.svelte: date =', date);
 
   $: month = date.getMonth();
-  $: day = date.getDate();
-  $: year = date.getFullYear();
-
-  $: month = date.getMonth();
-  $: day = date.getDate();
   $: year = date.getFullYear();
 
   let daySets = [];
-  let pickingMonth = false;
-  let pickingYear = false;
-  let today = new Date();
+  const today = new Date();
   let currentDay = today.getDate();
 
   $: setDaySets(year, month);
@@ -47,60 +37,36 @@
   }
 
   function changeYear(event) {
-    console.log(
-      'DatePicker.svelte changeYear: event.target.value =',
-      event.target.value
-    );
     date.setFullYear(Number(event.target.value));
-    console.log('DatePicker.svelte changeYear: date =', date);
     date = date; // trigger reactivity
   }
 
-  function setDaySets(y, m) {
-    daySets = [];
+  function getDateSuffix(year, month, day) {
+    const currentYear = date.getFullYear();
+    const currentMonth = date.getMonth();
 
-    const isCurrentMonth = y === today.getFullYear() && m === today.getMonth();
-    const isInitialMonth =
-      y === initialDate.getFullYear() && m === initialMonth;
-
-    const d = new Date(y, m, 1); // 1st of current month
-    const dayOfWeekIndex = d.getDay();
-    const remaining = 7 - dayOfWeekIndex;
-
-    if (dayOfWeekIndex > 0) {
-      const end = getLastDayInPreviousMonth();
-      const start = end - dayOfWeekIndex + 1;
-      const set = [];
-      for (let day = start; day <= end; day++) {
-        set.push(day + 'p');
-      }
-      for (let day = 1; day <= remaining; day++) {
-        const suffix = isCurrentMonth && day === currentDay ? 't' : '';
-        set.push(day + suffix);
-      }
-      daySets.push(set);
+    if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      return 'b'; // for before
     }
 
-    let day = remaining + 1;
-    const end = getLastDayInCurrentMonth();
-    let lastRow = false;
-    while (!lastRow) {
-      const set = [];
-      for (let i = 0; i < 7; i++) {
-        const suffix = lastRow
-          ? 'n'
-          : isCurrentMonth && day === currentDay
-          ? 't'
-          : '';
-        set.push(lastRow ? day + suffix : String(day));
-        day++;
-        if (day > end) {
-          day = 1;
-          lastRow = true;
-        }
-      }
-      daySets.push(set);
+    if (year > currentYear || (year === currentYear && month > currentMonth)) {
+      return 'a'; // for after
     }
+
+    if (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      day === today.getDate()
+    ) {
+      return 't'; // for today
+    }
+
+    const currentDay = date.getDate();
+    if (year === currentYear && month === currentMonth && day === currentDay) {
+      return 's'; // for selected
+    }
+
+    return '';
   }
 
   function getLastDayInCurrentMonth() {
@@ -120,52 +86,84 @@
     date = date; // trigger reactivity
   }
 
-  function pickMonth() {
-    alert('not implemented yet');
-  }
-
-  function pickYear() {
-    alert('not implemented yet');
-  }
-
   function previousMonth() {
     date.setMonth(date.getMonth() - 1);
     date = date; // trigger reactivity
+  }
+
+  function setDaySets(y, m) {
+    daySets = [];
+
+    const isCurrentMonth = y === today.getFullYear() && m === today.getMonth();
+
+    const d = new Date(y, m, 1); // 1st of current month
+    const dayOfWeekIndex = d.getDay();
+    const remaining = 7 - dayOfWeekIndex;
+
+    if (dayOfWeekIndex > 0) {
+      const end = getLastDayInPreviousMonth();
+      const start = end - dayOfWeekIndex + 1;
+      const set = [];
+      for (let day = start; day <= end; day++) {
+        set.push(day + 'b');
+      }
+      for (let day = 1; day <= remaining; day++) {
+        const suffix = isCurrentMonth && day === currentDay ? 't' : '';
+        set.push(day + suffix);
+      }
+      daySets.push(set);
+    }
+
+    let day = remaining + 1;
+    const end = getLastDayInCurrentMonth();
+    let lastRow = false;
+    while (!lastRow) {
+      const set = [];
+      for (let i = 0; i < 7; i++) {
+        set.push(day + getDateSuffix(y, m, day));
+        day++;
+        if (day > end) {
+          day = 1;
+          lastRow = true;
+        }
+      }
+      daySets.push(set);
+    }
+
+    //console.log('DatePicker.svelte setDaySets: daySets =', daySets);
   }
 </script>
 
 <div class="date-picker">
   <header>
+    <button class="bare" on:click={previousMonth} type="button">&lt;</button>
     <div>
-      <button class="bare" on:click={previousMonth} type="button">&lt;</button>
-      <div>
-        <div class="select-wrapper">
-          <select
-            class="month-select"
-            on:blur={changeMonth}
-            on:change={changeMonth}
-            value={month}
-          >
-            {#each MONTHS as month, index}
-              <option value={index}>{month}</option>
-            {/each}
-          </select>
-        </div>
-        <div class="select-wrapper">
-          <select
-            class="year-select"
-            on:blur={changeYear}
-            on:change={changeYear}
-            value={year}
-          >
-            {#each Array(maxYear - minYear + 1) as _, index}
-              <option>{minYear + index}</option>
-            {/each}
-          </select>
-        </div>
+      <div class="select-wrapper">
+        <select
+          class="month-select"
+          on:blur={changeMonth}
+          on:change={changeMonth}
+          value={month}
+        >
+          {#each MONTHS as month, index}
+            <option value={index}>{month}</option>
+          {/each}
+        </select>
       </div>
-      <button class="bare" on:click={nextMonth} type="button">&gt;</button>
+      <div class="select-wrapper">
+        <select
+          class="year-select"
+          on:blur={changeYear}
+          on:change={changeYear}
+          value={year}
+        >
+          {#each Array(maxYear - minYear + 1) as _, index}
+            <option>{minYear + index}</option>
+          {/each}
+        </select>
+      </div>
     </div>
+    <button class="bare" on:click={nextMonth} type="button">&gt;</button>
   </header>
   <table>
     <thead>
@@ -180,11 +178,11 @@
         <tr>
           {#each daySet as day}
             <td
-              class:next={day.endsWith('n')}
-              class:previous={day.endsWith('p')}
+              class:after={day.endsWith('a')}
+              class:before={day.endsWith('b')}
               class:selected={day.endsWith('s')}
               class:today={day.endsWith('t')}
-              on:click={() => console.log(day)}
+              on:click={() => (date = new Date(year, month, day))}
             >
               <div class="day">
                 {parseInt(day, 10)}
@@ -195,21 +193,48 @@
       {/each}
     </tbody>
   </table>
+  <div class="buttons">
+    <button on:click={() => (date = new Date())}>Today</button>
+  </div>
 </div>
 
 <!-- markup (zero or more items) goes here -->
 <style>
+  .buttons {
+    margin-top: 0.5rem;
+  }
+
   .date-picker {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
 
     background-color: white;
     border: 1px solid gray;
-    height: 11.5rem;
-    padding: 1rem;
+    padding: 0.5rem 1rem 1rem 1rem;
   }
 
-  .date-picker :global(select) {
+  .day {
+    --size: 1.8rem;
+
+    border: 1px solid transparent;
+    border-radius: calc(var(--size) / 2);
+    box-sizing: border-box;
+    display: inline-block;
+    height: var(--size);
+    padding-top: 3px;
+    text-align: center;
+    width: var(--size);
+  }
+
+  /* .date-picker :global(select) {
     border-color: transparent;
+  } */
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   header > div {
@@ -221,12 +246,17 @@
     width: 7rem;
   }
 
-  .next,
-  .previous {
+  .after,
+  .before {
     color: gray;
   }
 
+  table {
+    height: 14rem;
+  }
+
   td {
+    /* border: 1px solid lightgray; */
     text-align: right;
   }
 
@@ -237,18 +267,11 @@
 
   th {
     padding: 0.5rem 0.2rem;
+    width: 2.2rem;
   }
 
   .today > .day {
-    --size: 1.7rem;
-
-    border: 1px solid green;
-    border-radius: calc(var(--size) / 2);
-    box-sizing: border-box;
-    height: var(--size);
-    padding-top: 3px;
-    text-align: center;
-    width: var(--size);
+    border-color: green;
   }
 
   .year-select {

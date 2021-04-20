@@ -2,7 +2,7 @@
   import {browser} from '$app/env';
   import {goto} from '$app/navigation';
   import {page} from '$app/stores';
-  import {faCog} from '@fortawesome/free-solid-svg-icons';
+  import {faCog, faSearch} from '@fortawesome/free-solid-svg-icons';
   import Icon from 'fa-svelte';
   import {onMount} from 'svelte';
 
@@ -38,9 +38,19 @@
     setupColorMode();
   });
 
-  function logout() {
-    tokenStore.set('');
-    goto('/login');
+  async function logout() {
+    try {
+      const res = await fetch('/api/logout');
+      console.log('$layout.svelte logout: res =', res);
+      tokenStore.set('');
+      goto('/login');
+    } catch (e) {
+      console.error('failed to logout:', e);
+    }
+  }
+
+  function search() {
+    alert('Search is not implemented yet.');
   }
 
   function setupAutoFocus() {
@@ -65,6 +75,10 @@
 
 <main>
   <header>
+    <div class="name">
+      <div class="first-name">Mark</div>
+      <div class="last-name">Volkmann</div>
+    </div>
     <nav>
       {#each routes as {name, url}}
         <!-- Using prefetch causes the component code to be downloaded on hover
@@ -76,23 +90,22 @@
       {#if path !== '/login' && !$tokenStore}
         <a sveltekit:prefetch href="/login">Login</a>
       {/if}
-    </nav>
-    <div class="right">
       <!-- If not on login page and authenticated, add a Logout button. -->
       {#if path !== '/login' && $tokenStore}
-        <button on:click={logout}>Logout</button>
+        <button class="bare" on:click={logout}>Logout</button>
       {/if}
-      <button class="bare" on:click={() => dialog.showModal()}>
+      <button class="bare" on:click={search}>
+        <Icon icon={faSearch} />
+      </button>
+      <button class="bare settings" on:click={() => dialog.showModal()}>
         <Icon icon={faCog} />
       </button>
-    </div>
+    </nav>
   </header>
 
   <section>
     <slot />
   </section>
-
-  <footer>SvelteKit demo by R. Mark Volkmann</footer>
 </main>
 
 <Dialog title="Settings" bind:dialog>
@@ -101,8 +114,8 @@
 
 <style>
   a {
-    color: var(--text-color);
-    margin-right: 1rem;
+    color: white;
+    margin-right: 1.5rem;
     text-decoration: none;
     transition: color var(--transition-duration);
   }
@@ -111,12 +124,8 @@
     font-weight: bold;
   }
 
-  footer {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    padding: 1rem;
-    transition: background-color var(--transition-duration);
-    transition: color var(--transition-duration);
+  .first-name {
+    font-weight: lighter;
   }
 
   header {
@@ -124,25 +133,32 @@
     justify-content: space-between;
     align-items: center;
 
-    background-color: var(--primary-color);
-    font-size: 1.5rem;
+    /* background-color: var(--primary-color); */
+    background-color: transparent;
     padding: 1rem;
     transition: background-color var(--transition-duration);
   }
 
   header :global(.fa-svelte) {
-    --size: 1.5rem;
+    --size: 1.2rem;
 
-    color: var(--text-color);
+    position: relative;
+    top: 3px;
+
+    color: white;
     height: var(--size);
     width: var(--size);
+  }
+
+  .last-name {
+    font-weight: bold;
+    margin-left: 0.5rem;
   }
 
   main {
     display: flex;
     flex-direction: column;
 
-    background-color: var(--tertiary-color);
     color: var(--text-color);
     height: 100vh;
     padding: 0;
@@ -150,13 +166,43 @@
     transition: color var(--transition-duration);
   }
 
-  .right {
+  .name {
+    display: flex;
+
+    color: var(--tertiary-color);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+  }
+
+  nav {
     display: flex;
     align-items: center;
-    grid-gap: 1rem;
+  }
+
+  nav > button:not(:last-of-type) {
+    font-size: 1rem;
+    margin-right: 1.5rem;
   }
 
   section {
+    display: flex;
+    justify-content: center;
+
     flex-grow: 1;
+  }
+
+  section > :global(*) {
+    background-color: var(--bg-color);
+    border: 1px solid white;
+    border-bottom: 1rem solid var(--tertiary-color);
+    display: inline-block;
+    margin: 3rem auto auto auto;
+    padding: 2rem;
+  }
+
+  .settings {
+    border-left: 1px solid white;
+    border-radius: 0;
+    padding-left: 1.5rem;
   }
 </style>

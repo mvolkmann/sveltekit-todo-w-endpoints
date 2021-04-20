@@ -140,10 +140,6 @@
     margin-top: 0;
   }
 
-  section {
-    padding: 1rem;
-  }
-
   /* This removes bullets from a bulleted list. */
   ul.unstyled {
     list-style: none;

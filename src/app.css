@@ -1,43 +1,89 @@
+@font-face {
+  font-family: Open Sans;
+  src: url('Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: Open Sans;
+  font-weight: bold;
+  src: url('Open_Sans/OpenSans-Bold.ttf');
+}
+
+@font-face {
+  font-family: Open Sans;
+  font-weight: 100;
+  src: url('Open_Sans/OpenSans-Light.ttf');
+}
+
 body {
-  --primary-color: #8ea4ed;
-  --secondary-color: #e092d2;
-  --tertiary-color: #f0ceaf;
+  --primary-color: #efe605;
+  --secondary-color: #46a5e5;
+  --tertiary-color: #020e1f;
 
   --bg-color: white;
-  --border-color: lightgray;
-  --border-radius: 0.25rem;
-  --disabled-color: gray;
-  --error-color: red;
-  --hover-color: var(--primary-color);
+  --border-color: #e1e1e1;
+  --border-radius: 0;
+  --disabled-color: #d4d4d4;
+  --error-color: #af2c20;
+  --hover-color: #06486b;
   --input-bg-color: white;
-  --text-color: darkblue;
+  --input-color: black;
+  --logo-color: #020e1f;
+  --menu-color: #020e1f;
+  --text-color: black;
 
-  --input-border-width: 0;
+  --input-border-width: 1px;
   --transition-duration: 1s;
 
-  font-family: sans-serif;
+  background-image: url('background-light.jpg');
+  background-position: bottom;
+  background-size: cover;
+  font-family: Open Sans;
   margin: 0;
+
+  /*
+- h1 font color - #020e1f
+- h3 font color - #020e1f
+- primary button color - #46a5e5
+- secondary button border color - #e1e1e1
+- panel color - #fcfcfc
+- bottom trim color - #efe605
+- error box color - #f5f6fc
+  */
 }
 
 body.dark-mode {
-  --primary-color: #363e59;
-  --secondary-color: #593a54;
-  --tertiary-color: #594d41;
+  --primary-color: #020e1f;
+  --secondary-color: #46a5e5;
+  --tertiary-color: #efe605;
 
-  --bg-color: white;
+  --bg-color: #020e1f;
   --disabled-color: lightgray;
-  --input-bg-color: #444;
+  --hover-color: #06486b;
   --input-border-width: 2px;
+  --logo-color: #efe605;
+  --menu-color: white;
   --text-color: white;
+
+  --input-border-width: 0;
+
+  /*
+- h1 font color - #ffffff
+- h3 font color - #46a5e5
+- primary button color - #46a5e5
+- secondary button  border color - #e1e1e1
+- bottom trim color - #efe605
+  */
+
+  background-image: url('background-dark.jpg');
 }
 
 button {
-  background-color: var(--secondary-color);
-  border: none;
-  border-radius: 0.5rem;
+  background-color: var(--primary-color);
+  border: 1px solid white;
   color: var(--text-color);
   font-size: 1rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   transition: background-color var(--transition-duration);
   transition: color var(--transition-duration);
 }
@@ -45,6 +91,7 @@ button {
 button.bare {
   background-color: transparent;
   border: none;
+  border-radius: var(--border-radius);
   color: var(--text-color);
   font-size: 1.2rem;
   outline: none;
@@ -64,15 +111,25 @@ button:hover {
   background-color: var(--hover-color);
 }
 
+button.primary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+  color: var(--text-color);
+}
+
 .error {
   color: var(--error-color);
+}
+
+h2 {
+  color: var(--secondary-color);
 }
 
 input {
   background-color: var(--input-bg-color);
   border: var(--input-border-width) solid var(--border-color);
   border-radius: var(--border-radius);
-  color: var(--text-color);
+  color: var(--input-color);
   padding: 0.5rem;
 }
 
@@ -99,6 +156,10 @@ input[type='checkbox']:checked::after {
   left: 4px;
 }
 
+label {
+  color: var(--text-color);
+}
+
 select {
   appearance: none;
   -webkit-appearance: none;
@@ -117,6 +178,7 @@ select {
 .select-wrapper::after {
   color: var(--primary-color);
   content: '▼';
+  pointer-events: none;
   position: absolute;
   top: 9px;
   right: 6px;

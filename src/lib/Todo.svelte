@@ -17,7 +17,7 @@
     checked={todo.done}
     on:change={() => dispatch('toggleDone')}
   />
-  <span class={'done-' + todo.done}>{todo.text}</span>
+  <span class:done={todo.done}>{todo.text}</span>
   <button class="bare" on:click={() => dispatch('delete')}>
     <Icon icon={faTrashAlt} />
   </button>
@@ -30,7 +30,7 @@
     top: 2px;
   }
 
-  .done-true {
+  .done {
     color: var(--disabled-color);
     text-decoration: line-through;
   }
